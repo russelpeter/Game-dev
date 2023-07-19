@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 public class InputManager : MonoBehaviour
 {
     public LayerMask mouseInputMask; // filter obj interacted through the mouse
-    public GameObject buildingPrefab; // instantiated prefab of building
-    public int cellSize = 3; // size of each cell in game world
 
     void Update()
     {
@@ -29,24 +27,13 @@ public class InputManager : MonoBehaviour
             {
                 // calculate nearest grid position
                 Vector3 position = hit.point-transform.position;
-                Debug.Log(CalculateGridPosition(position));
-                // instantiate the building prefab
-                CreatebUilding(CalculateGridPosition(position));
             }
         }   
     }
 
-    // calculate grid pos based on cellSize
-    public Vector3 CalculateGridPosition(Vector3 inputPosition)
-    {
-        int x = Mathf.FloorToInt((float)inputPosition.x/cellSize);
-        int z = Mathf.FloorToInt((float)inputPosition.z / cellSize);
-        return new Vector3(x * cellSize, 0, z * cellSize);
-    }
-    
-    // instantiate buildingprefab at specified gridPosition
-    private void Createbuilding(Vector3 gridPosition)
-    {
-        Instantiate(bUildingPrefab, gridPosition, Quaternion.identity);
-    }
+    // // instantiate buildingprefab at specified gridPosition
+    // private void Createbuilding(Vector3 gridPosition)
+    // {
+    //     Instantiate(bUildingPrefab, gridPosition, Quaternion.identity);
+    // }
 }
