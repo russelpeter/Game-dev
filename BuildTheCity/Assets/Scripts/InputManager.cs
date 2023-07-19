@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour
 {
+    private Action<Vector3> OnPointerDownHandler;
     public LayerMask mouseInputMask; // filter obj interacted through the mouse
 
     void Update()
@@ -27,13 +28,18 @@ public class InputManager : MonoBehaviour
             {
                 // calculate nearest grid position
                 Vector3 position = hit.point-transform.position;
+                OnPointerDownHandler?.Invoke(position);
             }
         }   
     }
 
-    // // instantiate buildingprefab at specified gridPosition
-    // private void Createbuilding(Vector3 gridPosition)
-    // {
-    //     Instantiate(bUildingPrefab, gridPosition, Quaternion.identity);
-    // }
+  public void AddListenerOnPointerDownEvent(Action<Vector3> listener)
+    {
+        OnPointerDownHandler += listener;
+    }
+
+    public void RemoveListenerOnPointerDownEvent(Action<Vector3> listener)
+    {
+        OnPointerDownHandler -= listener;
+    }
 }
