@@ -10,52 +10,102 @@ public class GameManager : MonoBehaviour
     public UIController uiController;
     public int width, length;
     public CameraMovement cameraMovement;
-    public GridStructure grid;
+    public LayerMask inputMask;
+    private BuildingManager buildingManager;
     private int cellSize = 3;
-    private bool buildingModeActive = false;
 
+    private PlayerState state;
+
+    public PlayerSelectionState selectionState;
+    public PlayerBuildingSingleStructureState buildingSingleStructureState;
+    public PlayerRemoveBuildingState demolishState;
+
+    public PlayerState State { get => state; }
+
+    private void Awake()
+    {
+        buildingManager = new BuildingManager(cellSize, width, length, placementManager);
+        selectionState = new PlayerSelectionState(this, cameraMovement);
+        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
+        demolishState = new PlayerRemoveBuildingState(this, buildingManager);
+        state = selectionState;
+        state.EnterState();
+#if (UNITY_EDITOR && TEST) || !(UNITY_IOS || UNITY_ANDROID)
+        inputManager = gameObject.AddComponent<InputManager>();
+#endif
+#if (UNITY_IOS || UNITY_ANDROID)
+
+#endif
+    }
     void Start()
     {
-        // find every instance of IInputManager
+        PreapreGameComponents();
+        //inputManager = FindObjectsOfType<MonoBehaviour>().OfType<IInputManager>().FirstOrDefault();
+
+        AssignInputListeners();
+        AssignUiControllerListeners();
+    }
+
+    private void PreapreGameComponents()
+    {
+        inputManager.MouseInputMask = inputMask;
         cameraMovement.SetCameraLimits(0, width, 0, length);
-        inputManager = FindObjectsOfType<MonoBehaviour>().OfType<IInputManager>().FirstOrDefault();
-        grid = new GridStructure(cellSize, width, length);
+    }
+
+    private void AssignInputListeners()
+    {
         inputManager.AddListenerOnPointerDownEvent(HandleInput);
         inputManager.AddListenerOnPointerSecondDownEvent(HandleInputCameraPan);
         inputManager.AddListenerOnPointerSecondUpEvent(HandleInputCameraStop);
+        inputManager.AddListenerOnPointerChangeEvent(HandlePointerChange);
+    }
+
+    private void AssignUiControllerListeners()
+    {
         uiController.AddListenerOnBuildAreaEvent(StartPlacementMode);
         uiController.AddListenerOnCancelActionEvent(CancelAction);
+        uiController.AddListenerOnDemolishActionEvent(StartDemolishMode);
+    }
+
+    private void StartDemolishMode()
+    {
+        TransitionToState(demolishState);
+    }
+
+    private void HandlePointerChange(Vector3 position)
+    {
+        state.OnInputPointerChange(position);
     }
 
     private void HandleInputCameraStop()
     {
-        cameraMovement.StopCameraMovement();
+        state.OnInputPanUp();
     }
 
     private void HandleInputCameraPan(Vector3 position)
     {
-        if (buildingModeActive == false)
-        {
-            cameraMovement.MoveCamera(position);
-        }
+        state.OnInputPanChange(position);
     }
 
     private void HandleInput(Vector3 position)
     {
-        Vector3 gridPosition = grid.CalculateGridPosition(position);
-        if (buildingModeActive && grid.IsCellTaken(gridPosition) == false)
-        {
-            placementManager.CreateBuilding(gridPosition, grid);
-        }
+        state.OnInputPointerDown(position);
+
     }
 
     private void StartPlacementMode()
     {
-        buildingModeActive = true;
+        TransitionToState(buildingSingleStructureState);
     }
 
     private void CancelAction()
     {
-        buildingModeActive = false;
+        state.OnCancel();
     }
+    public void TransitionToState(PlayerState newState)
+    {
+        this.state = newState;
+        this.state.EnterState();
+    }
+
 }
