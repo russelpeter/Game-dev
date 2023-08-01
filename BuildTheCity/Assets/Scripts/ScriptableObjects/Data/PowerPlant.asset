@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a6ea7b83846d479b8f43e1b1f87ad47, type: 3}
+  m_Script: {fileID: 11500000, guid: fdc45f24efc78d249b109c18daae9a63, type: 3}
   m_Name: PowerPlant
   m_EditorClassIdentifier: 
-  buildingName: Power Plant
+  buildingName: Power plant
   prefab: {fileID: 1874159045682050738, guid: dd1a6dc5c298f884590bc21cbf736ea9, type: 3}
   placementCost: 0
   upkeepCost: 0

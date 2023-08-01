@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [CreateAssetMenu(fileName = "New road structure", menuName = "CityBuilder/StructureData/RoadStructure")]
 public class RoadStructureSO : StructureBaseSO
 {

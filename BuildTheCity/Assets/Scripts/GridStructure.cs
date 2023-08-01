@@ -8,8 +8,6 @@ public class GridStructure
     private int cellSize;
     Cell[,] grid;
     private int width, length;
-
-   // each pos on the grid has a cell on it
     public GridStructure(int cellSize, int width, int length)
     {
         this.cellSize = cellSize;
@@ -24,13 +22,11 @@ public class GridStructure
             }
         }
     }
-
-    // calculate grid pos based on cellSize
     public Vector3 CalculateGridPosition(Vector3 inputPosition)
     {
         int x = Mathf.FloorToInt((float)inputPosition.x / cellSize);
         int z = Mathf.FloorToInt((float)inputPosition.z / cellSize);
-        return new Vector3(x * cellSize, 0, z * cellSize);  
+        return new Vector3(x * cellSize, 0, z * cellSize);
     }
 
     public void RemoveStructureFromTheGrid(Vector3 gridPosition)
@@ -39,12 +35,11 @@ public class GridStructure
         grid[cellIndex.y, cellIndex.x].RemoveStructure();
     }
 
-     private Vector2Int CalculateGridIndex(Vector3 gridPosition)
+    private Vector2Int CalculateGridIndex(Vector3 gridPosition)
     {
         return new Vector2Int((int)(gridPosition.x / cellSize), (int)(gridPosition.z / cellSize));
     }
 
-// cell contains a structure or not
     public bool IsCellTaken(Vector3 gridPosition)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
@@ -72,4 +67,6 @@ public class GridStructure
         var cellIndex = CalculateGridIndex(gridPosition);
         return grid[cellIndex.y, cellIndex.x].GetStructure();
     }
+
+    
 }

@@ -4,52 +4,46 @@ using UnityEngine;
 
 public class PlayerBuildingSingleStructureState : PlayerState
 {
-    // PlacementManager placementManager;
-    // GridStructure grid;
-
-    // public PlayerBuildingSingleStructureState(GameManager gameManager,PlacementManager placementManager, GridStructure grid) : base(gameManager)
     BuildingManager buildingManager;
-
+    string structureName;
     public PlayerBuildingSingleStructureState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
-        // this.placementManager = placementManager;
-        // this.grid = grid;
         this.buildingManager = buildingManager;
     }
-
-    public override void OnInputPanChange(Vector3 position)
+    public override void OnConfirmAction()
     {
-        return;
+        base.OnConfirmAction();
+        this.buildingManager.ConfirmPlacement();
     }
-
-    public override void OnInputPanUp()
-    {
-        return;
-    }
-
-    public override void OnInputPointerChange(Vector3 position)
-    {
-        return;
-    }
-
     public override void OnInputPointerDown(Vector3 position)
     {
-        // Vector3 gridPosition = grid.CalculateGridPosition(position);
-        // if (grid.IsCellTaken(gridPosition) == false)
-        // {
-        //     placementManager.CreateBuilding(gridPosition, grid);
-        // }
-       this.buildingManager.PlaceStructureAt(position);
+
+        buildingManager.PrepareStructureForPlacement(position, this.structureName, StructureType.SingleStructure);
     }
 
-    public override void OnInputPointerUp()
+    public override void OnBuildArea(string structureName)
     {
-        return;
+        
+        base.OnBuildArea(structureName);
+        this.buildingManager.CanclePlacement();
     }
 
-    public override void OnCancel()
+    public override void OnBuildRoad(string structureName)
     {
-        this.gameManager.TransitionToState(this.gameManager.selectionState);
+        
+        base.OnBuildRoad(structureName);
+        this.buildingManager.CanclePlacement();
     }
 
+    public override void OnCancle()
+    {
+        this.buildingManager.CanclePlacement();
+        this.gameManager.TransitionToState(this.gameManager.selectionState, null);
+    }
+
+    public override void EnterState(string structureName)
+    {
+        base.EnterState(structureName);
+        this.structureName = structureName;
+    }
 }

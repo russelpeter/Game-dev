@@ -4,31 +4,27 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-   Vector3? basePointerPosition = null; // val can be null
+    Vector3? basePointerPosition = null;
     public float cameraMovementSpeed = 0.05f;
     private int cameraXMin, cameraXMax, cameraZMin, cameraZMax;
-
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void MoveCamera(Vector3 pointerposition)
     {
-        // the offset between basepntrpos & pntrpos
         if (basePointerPosition.HasValue == false)
         {
             basePointerPosition = pointerposition;
         }
-
-        // wch dir we want to pan/drag our cam to
         Vector3 newPosition = pointerposition - basePointerPosition.Value;
         newPosition = new Vector3(newPosition.x, 0, newPosition.y);
         transform.Translate(newPosition * cameraMovementSpeed);

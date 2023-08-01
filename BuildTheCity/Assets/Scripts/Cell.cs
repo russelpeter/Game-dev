@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class Cell 
 {
-    // store what structure was placed on a cell
     GameObject structureModel = null;
-    bool isTaken = false; // if there's a structure on e cell
+    bool isTaken = false;
 
     public bool IsTaken { get => isTaken;}
 
@@ -19,7 +18,7 @@ public class Cell
         this.isTaken = true;
     }
 
-     public GameObject GetStructure()
+    public GameObject GetStructure()
     {
         return structureModel;
     }

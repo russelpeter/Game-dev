@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9796be451cf9497a8a098a501d11b24, type: 3}
+  m_Script: {fileID: 11500000, guid: 959e1f1d97201974483909ddaac9c611, type: 3}
   m_Name: Road
   m_EditorClassIdentifier: 
   buildingName: Road

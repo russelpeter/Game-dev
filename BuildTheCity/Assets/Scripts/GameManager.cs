@@ -1,13 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public PlacementManager placementManager;
+    public StructureRepository structureRepository;
     public IInputManager inputManager;
-    public UIController uiController;
+    public UiController uiController;
     public int width, length;
     public CameraMovement cameraMovement;
     public LayerMask inputMask;
@@ -18,18 +20,15 @@ public class GameManager : MonoBehaviour
 
     public PlayerSelectionState selectionState;
     public PlayerBuildingSingleStructureState buildingSingleStructureState;
-    public PlayerRemoveBuildingState demolishState;
+    public PlayerDemolitionState demolishState;
+    public PlayerBuildingRoadState buildingRoadState;
+    public PlayerBuildingZoneState buildingAreaState;
 
     public PlayerState State { get => state; }
 
     private void Awake()
     {
-        buildingManager = new BuildingManager(cellSize, width, length, placementManager);
-        selectionState = new PlayerSelectionState(this, cameraMovement);
-        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
-        demolishState = new PlayerRemoveBuildingState(this, buildingManager);
-        state = selectionState;
-        state.EnterState();
+        PrepareStates();
 #if (UNITY_EDITOR && TEST) || !(UNITY_IOS || UNITY_ANDROID)
         inputManager = gameObject.AddComponent<InputManager>();
 #endif
@@ -37,6 +36,19 @@ public class GameManager : MonoBehaviour
 
 #endif
     }
+
+    private void PrepareStates()
+    {
+        buildingManager = new BuildingManager(cellSize, width, length, placementManager, structureRepository);
+        selectionState = new PlayerSelectionState(this);
+        demolishState = new PlayerDemolitionState(this, buildingManager);
+        buildingSingleStructureState = new PlayerBuildingSingleStructureState(this, buildingManager);
+        buildingAreaState = new PlayerBuildingZoneState(this, buildingManager);
+        buildingRoadState = new PlayerBuildingRoadState(this, buildingManager);
+        state = selectionState;
+        state.EnterState(null);
+    }
+
     void Start()
     {
         PreapreGameComponents();
@@ -52,25 +64,25 @@ public class GameManager : MonoBehaviour
         cameraMovement.SetCameraLimits(0, width, 0, length);
     }
 
-    private void AssignInputListeners()
-    {
-        inputManager.AddListenerOnPointerDownEvent(HandleInput);
-        inputManager.AddListenerOnPointerSecondDownEvent(HandleInputCameraPan);
-        inputManager.AddListenerOnPointerSecondUpEvent(HandleInputCameraStop);
-        inputManager.AddListenerOnPointerChangeEvent(HandlePointerChange);
-    }
-
     private void AssignUiControllerListeners()
     {
-        uiController.AddListenerOnBuildAreaEvent(StartPlacementMode);
-        uiController.AddListenerOnCancelActionEvent(CancelAction);
-        uiController.AddListenerOnDemolishActionEvent(StartDemolishMode);
+        uiController.AddListenerOnBuildAreaEvent((structureName) => state.OnBuildArea(structureName));
+        uiController.AddListenerOnBuildSingleStructureEvent((structureName) => state.OnBuildSingleStructure(structureName));
+        uiController.AddListenerOnBuildRoadEvent((structureName) => state.OnBuildRoad(structureName));
+        uiController.AddListenerOnCancleActionEvent(() => state.OnCancle());
+        uiController.AddListenerOnDemolishActionEvent(() => state.OnDemolishAction());
+        uiController.AddListenerOnConfirmActionEvent(() => state.OnConfirmAction());
+
     }
 
-    private void StartDemolishMode()
+    private void AssignInputListeners()
     {
-        TransitionToState(demolishState);
+        inputManager.AddListenerOnPointerDownEvent((position) => state.OnInputPointerDown(position));
+        inputManager.AddListenerOnPointerSecondDownEvent((position) => state.OnInputPanChange(position));
+        inputManager.AddListenerOnPointerSecondUpEvent(() => state.OnInputPanUp());
+        inputManager.AddListenerOnPointerChangeEvent((position) => state.OnInputPointerChange(position));
     }
+
 
     private void HandlePointerChange(Vector3 position)
     {
@@ -93,19 +105,15 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void StartPlacementMode()
+    private void StartPlacementMode(string variable)
     {
-        TransitionToState(buildingSingleStructureState);
+        TransitionToState(buildingSingleStructureState, variable);
     }
 
-    private void CancelAction()
-    {
-        state.OnCancel();
-    }
-    public void TransitionToState(PlayerState newState)
+    public void TransitionToState(PlayerState newState, string variable)
     {
         this.state = newState;
-        this.state.EnterState();
+        this.state.EnterState(variable);
     }
 
 }
