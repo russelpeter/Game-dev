@@ -297,6 +297,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63cabe03c2d169f4e8c98a2b6848566e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startMoneyAmount: 5000
+  demolitionPrice: 20
+  moneyCalculationInterval: 2
   uiController: {fileID: 1976479581}
 --- !u!4 &189387756
 Transform:
@@ -2697,7 +2700,7 @@ MonoBehaviour:
   inputMask:
     serializedVersion: 2
     m_Bits: 256
-  resourceManager: {fileID: 189387755}
+  resourceManagerGameObject: {fileID: 189387754}
 --- !u!4 &1650921836
 Transform:
   m_ObjectHideFlags: 0
@@ -2830,6 +2833,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1794874709 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2863726035141216878, guid: 559c11d47e063bc4991c465e37cd193d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1567679462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1817562211
 GameObject:
   m_ObjectHideFlags: 0
@@ -3215,6 +3230,7 @@ MonoBehaviour:
   buildButtonPrefab: {fileID: 887964655198250043, guid: e124772d9a861464d9b127a204043749,
     type: 3}
   moneyValue: {fileID: 1376272173}
+  populationValue: {fileID: 1794874709}
 --- !u!4 &1976479582
 Transform:
   m_ObjectHideFlags: 0
