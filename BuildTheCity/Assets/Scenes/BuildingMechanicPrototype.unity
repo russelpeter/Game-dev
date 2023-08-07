@@ -268,6 +268,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: 40, z: -5}
+--- !u!1 &189387754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 189387756}
+  - component: {fileID: 189387755}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &189387755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189387754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63cabe03c2d169f4e8c98a2b6848566e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiController: {fileID: 1976479581}
+--- !u!4 &189387756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 189387754}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 330.0631, y: -94.96144, z: 106.46839}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &260803029 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8789927581634303003, guid: e124772d9a861464d9b127a204043749,
@@ -1633,6 +1677,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1376272173 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2863726036424190605, guid: 559c11d47e063bc4991c465e37cd193d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1567679462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1433759484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,6 +2697,7 @@ MonoBehaviour:
   inputMask:
     serializedVersion: 2
     m_Bits: 256
+  resourceManager: {fileID: 189387755}
 --- !u!4 &1650921836
 Transform:
   m_ObjectHideFlags: 0
@@ -3157,6 +3214,7 @@ MonoBehaviour:
   closeBuildMenuBtn: {fileID: 1045125950}
   buildButtonPrefab: {fileID: 887964655198250043, guid: e124772d9a861464d9b127a204043749,
     type: 3}
+  moneyValue: {fileID: 1376272173}
 --- !u!4 &1976479582
 Transform:
   m_ObjectHideFlags: 0
