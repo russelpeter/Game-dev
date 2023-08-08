@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,9 +34,11 @@ public abstract class StructureModificationHelper
     public virtual void ConfirmModifications()
     {
         placementManager.PlaceStructuresOnTheMap(structuresToBeModified.Values);
+        Type structureType = structureData.GetType();
         foreach (var keyValuePair in structuresToBeModified)
         {
             grid.PlaceStructureOnTheGrid(keyValuePair.Value, keyValuePair.Key, GameObject.Instantiate(structureData) );
+            StructureEconomyManager.CreateStructureLogic(structureType, keyValuePair.Key, grid);
         }
         ResetHelpersData();
     }

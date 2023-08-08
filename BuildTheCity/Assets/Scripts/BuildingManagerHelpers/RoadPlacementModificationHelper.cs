@@ -103,7 +103,4 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
         base.ConfirmModifications();
     }
 
-    
-
-
 }
