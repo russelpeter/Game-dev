@@ -9,6 +9,12 @@ public class PlacementManager : MonoBehaviour, IPlacementManager
     public Material transparentMaterial;
     private Dictionary<GameObject, Material[]> originalMaterials = new Dictionary<GameObject, Material[]>();
 
+    //public void CreateBuilding(Vector3 gridPosition, GridStructure grid, GameObject buildingPrefab)
+    //{
+    //    GameObject newStructure = Instantiate(buildingPrefab, ground.position + gridPosition, Quaternion.identity);
+    //    grid.PlaceStructureOnTheGrid(newStructure, gridPosition);
+    //}
+
     public GameObject CreateGhostStructure(Vector3 gridPosition, GameObject buildingPrefab, RotationValue rotationValue = RotationValue.R0)
     {
         GameObject newStructure = PlaceStructureOnTheMap(gridPosition, buildingPrefab, rotationValue);

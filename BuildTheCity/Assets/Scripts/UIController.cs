@@ -27,6 +27,12 @@ public class UiController : MonoBehaviour
 
     public GameObject zonesPanel;
     public GameObject facilitiesPanel;
+
+    public void HideStructureInfo()
+    {
+        structurePanelHelper.Hide();
+    }
+
     public GameObject roadsPanel;
     public Button closeBuildMenuBtn;
 
@@ -34,6 +40,8 @@ public class UiController : MonoBehaviour
 
     public TextMeshProUGUI moneyValue;
     public TextMeshProUGUI populationValue;
+
+    public UIStructureInfoPanelHelper structurePanelHelper;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +60,11 @@ public class UiController : MonoBehaviour
     {
         cancleActionPanel.SetActive(false);
         OnConfirmActionHandler?.Invoke();
+    }
+
+    internal bool GetStructureInfoVisibility()
+    {
+        return structurePanelHelper.gameObject.activeSelf;
     }
 
     private void OnCloseMenuHandler()
@@ -137,6 +150,21 @@ public class UiController : MonoBehaviour
     private void Update()
     {
         
+    }
+
+    public void DisplayBasicStructureInfo(StructureBaseSO data)
+    {
+        structurePanelHelper.DisplayBasicStructureInfo(data);
+    }
+
+    public void DisplayZoneStructureInfo(ZoneStructureSO data)
+    {
+        structurePanelHelper.DisplayZoneStructureInfo(data);
+    }
+
+    public void DisplayFacilitStructureInfo(SingleFacilitySO data)
+    {
+        structurePanelHelper.DisplayFacilityStructureInfo(data);
     }
 
     private void OnCancleActionCallback()
