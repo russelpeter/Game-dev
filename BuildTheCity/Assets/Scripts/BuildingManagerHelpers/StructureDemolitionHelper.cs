@@ -57,7 +57,7 @@ public class StructureDemolitionHelper : StructureModificationHelper
         }
     }
 
-    public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+    public override void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
     {
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         if (grid.IsCellTaken(gridPosition))
