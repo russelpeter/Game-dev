@@ -6,47 +6,33 @@ public class PlayerBuildingSingleStructureState : PlayerState
 {
     BuildingManager buildingManager;
     string structureName;
-
-
-    public PlayerBuildingSingleStructureState(GameManager gameManager,BuildingManager buildingManager) : base(gameManager)
+    public PlayerBuildingSingleStructureState(GameManager gameManager, BuildingManager buildingManager) : base(gameManager)
     {
         this.buildingManager = buildingManager;
     }
-
     public override void OnConfirmAction()
     {
-        this.buildingManager.ConfirmModification();
-        AudioManager.Instance.PlayPlaceBuildingSound();
         base.OnConfirmAction();
+        this.buildingManager.ConfirmModification();
     }
-
-    public override void OnInputPointerChange(Vector3 position)
-    {
-        return;
-    }
-
     public override void OnInputPointerDown(Vector3 position)
     {
 
-        this.buildingManager.PrepareStructureForModification(position, structureName, StructureType.SingleStructure);
-    }
-
-
-    public override void OnInputPointerUp()
-    {
-        return;
+        buildingManager.PrepareStructureForPlacement(position, this.structureName, StructureType.SingleStructure);
     }
 
     public override void OnBuildArea(string structureName)
     {
-        this.buildingManager.CancelModification();
+        
         base.OnBuildArea(structureName);
+        this.buildingManager.CancelModification();
     }
 
     public override void OnBuildRoad(string structureName)
     {
-        this.buildingManager.CancelModification();
+        
         base.OnBuildRoad(structureName);
+        this.buildingManager.CancelModification();
     }
 
     public override void OnCancle()
@@ -57,8 +43,8 @@ public class PlayerBuildingSingleStructureState : PlayerState
 
     public override void EnterState(string structureName)
     {
+        base.EnterState(structureName);
         this.buildingManager.PrepareBuildingManager(this.GetType());
         this.structureName = structureName;
     }
-
 }
