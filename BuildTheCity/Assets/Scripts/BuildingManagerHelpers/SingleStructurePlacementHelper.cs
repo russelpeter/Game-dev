@@ -8,9 +8,9 @@ public class SingleStructurePlacementHelper : StructureModificationHelper
     {
     }
 
-    public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+    public override void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        base.PrepareStructureForModification(inputPosition, structureName, structureType);
+        base.PrepareStructureForPlacement(inputPosition, structureName, structureType);
         //GameObject buildingPrefab = this.structureRepository.GetBuildingPrefabByName(structureName, structureType);
         GameObject buildingPrefab = structureData.prefab;
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);

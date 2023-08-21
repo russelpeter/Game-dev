@@ -10,9 +10,9 @@ public class RoadPlacementModificationHelper : StructureModificationHelper
     {
     }
 
-    public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+    public override void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        base.PrepareStructureForModification(inputPosition, structureName, structureType);
+        base.PrepareStructureForPlacement(inputPosition, structureName, structureType);
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         if (grid.IsCellTaken(gridPosition) == false)
         {

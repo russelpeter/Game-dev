@@ -18,9 +18,9 @@ public class ZonePlacementHelper : StructureModificationHelper
         this.mapBottomLeftCorner = mapBottomLeftCorner;
     }
 
-    public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+    public override void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        base.PrepareStructureForModification(inputPosition, structureName, structureType);
+        base.PrepareStructureForPlacement(inputPosition, structureName, structureType);
         Vector3 gridPositon = grid.CalculateGridPosition(inputPosition);
         if (startPositionAcquired == false && grid.IsCellTaken(gridPositon) == false)
         {
