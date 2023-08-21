@@ -14,19 +14,12 @@ public abstract class StructureBaseSO : ScriptableObject
     public bool requireRoadAccess;
     public bool requireWater;
     public bool requirePower;
-    public int structureRange = 1;
-    private SingleFacilitySO powerProvider = null;
-    private SingleFacilitySO waterProvider = null;
-    private RoadStructureSO roadProvider = null;
-
-    public SingleFacilitySO PowerProvider { get => powerProvider;}
-    public SingleFacilitySO WaterProvider { get => waterProvider;}
-    public RoadStructureSO RoadProvider { get => roadProvider;}
 
     public virtual int GetIncome()
     {
         return income;
     }
+<<<<<<< HEAD
 
     public bool HasPower()
     {
@@ -99,4 +92,6 @@ public abstract class StructureBaseSO : ScriptableObject
             }
         }
     }
+=======
+>>>>>>> parent of 177e6cd (Implementing functionality to structures)
 }
