@@ -47,14 +47,17 @@ public class StructureDemolitionHelper : StructureModificationHelper
         var data = grid.GetStructureDataFromTheGrid(gridPosition);
         if (data != null)
         {
-            if (data.GetType() == typeof(ZoneStructureSO) && ((ZoneStructureSO)data).zoneType == ZoneType.Residential)
+            Type dataType = data.GetType();
+            if (dataType == typeof(ZoneStructureSO) && ((ZoneStructureSO)data).zoneType == ZoneType.Residential)
             {
                 resourceManager.ReducePopulation(1);
             }
+            StructureEconomyManager.DemolitionStructureLogic(dataType, gridPosition, grid);
+
         }
     }
 
-    public override void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
+    public override void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
     {
         Vector3 gridPosition = grid.CalculateGridPosition(inputPosition);
         if (grid.IsCellTaken(gridPosition))

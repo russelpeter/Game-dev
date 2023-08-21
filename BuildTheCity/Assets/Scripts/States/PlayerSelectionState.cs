@@ -13,7 +13,6 @@ public class PlayerSelectionState : PlayerState
         this.buildingManager = buildingManager;
     }
 
-
     public override void OnInputPointerChange(Vector3 position)
     {
         return;
@@ -65,7 +64,6 @@ public class PlayerSelectionState : PlayerState
 
     public override void EnterState(string variable)
     {
-        base.EnterState(variable);
         if (this.gameManager.uiController.GetStructureInfoVisibility())
         {
             StructureBaseSO data = buildingManager.GetStructureDataFromPosition(previousPosition.Value);
@@ -78,9 +76,10 @@ public class PlayerSelectionState : PlayerState
                 this.gameManager.uiController.HideStructureInfo();
                 previousPosition = null;
             }
-            
+
 
         }
-        
+
     }
+
 }
