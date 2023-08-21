@@ -27,12 +27,6 @@ public class UiController : MonoBehaviour
 
     public GameObject zonesPanel;
     public GameObject facilitiesPanel;
-
-    public void HideStructureInfo()
-    {
-        structurePanelHelper.Hide();
-    }
-
     public GameObject roadsPanel;
     public Button closeBuildMenuBtn;
 
@@ -54,26 +48,38 @@ public class UiController : MonoBehaviour
         openBuildMenuBtn.onClick.AddListener(OnOpenBuildMenu);
         demolishBtn.onClick.AddListener(OnDemolishHandler);
         closeBuildMenuBtn.onClick.AddListener(OnCloseMenuHandler);
+
+    }
+
+    public void HideStructureInfo()
+    {
+        structurePanelHelper.Hide();
+    }
+
+    public bool GetStructureInfoVisibility()
+    {
+
+        return structurePanelHelper.gameObject.activeSelf;
     }
 
     private void OnConfirmActionCallback()
     {
+
         cancleActionPanel.SetActive(false);
         OnConfirmActionHandler?.Invoke();
     }
 
-    internal bool GetStructureInfoVisibility()
-    {
-        return structurePanelHelper.gameObject.activeSelf;
-    }
+
 
     private void OnCloseMenuHandler()
     {
+        AudioManager.Instance.PlayButtonClickedSound();
         buildingMenuPanel.SetActive(false);
     }
 
     private void OnDemolishHandler()
     {
+        AudioManager.Instance.PlayButtonClickedSound();
         OnDemolishActionHandler?.Invoke();
         cancleActionPanel.SetActive(true);
         OnCloseMenuHandler();
@@ -81,20 +87,75 @@ public class UiController : MonoBehaviour
 
     private void OnOpenBuildMenu()
     {
+        AudioManager.Instance.PlayButtonClickedSound();
         buildingMenuPanel.SetActive(true);
+        
         PrepareBuildMenu();
     }
 
     private void PrepareBuildMenu()
     {
-        CreateButtonsInPanel(zonesPanel.transform, structureRepository.GetZoneNames(), OnBuildAreaCallback);
-        CreateButtonsInPanel(facilitiesPanel.transform, structureRepository.GetSingleStructureNames(), OnBuildSingleStructureCallback);
-        CreateButtonsInPanel(roadsPanel.transform, new List<string>() { structureRepository.GetRoadStructureName() }, OnBuildRoadCallback);
+        CreateButtonsInPanel(zonesPanel.transform, structureRepository.GetZoneNames(),OnBuildAreaCallback);
+        CreateButtonsInPanel(facilitiesPanel.transform, structureRepository.GetSingleStructureNames(),OnBuildSingleStructureCallback);
+        CreateButtonsInPanel(roadsPanel.transform, new List<string>() { structureRepository.GetRoadStructureName() },OnBuildRoadCallback);
     }
 
     public void SetPopulationValue(int population)
     {
         populationValue.text = population + "";
+    }
+
+    private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow, Action<string> callback)
+    {
+        if (dataToShow.Count > panelTransform.childCount)
+        {
+            int quantityDifference = dataToShow.Count - panelTransform.childCount;
+            for (int i = 0; i < quantityDifference; i++)
+            {
+                Instantiate(buildButtonPrefab, panelTransform);
+            }
+        }
+        for (int i = 0; i < panelTransform.childCount; i++)
+        {
+            var button = panelTransform.GetChild(i).GetComponent<Button>();
+            if (button != null)
+            {
+                button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
+                button.onClick.AddListener(()=> callback(button.GetComponentInChildren<TextMeshProUGUI>().text));
+            }
+        }
+    }
+
+    public void SetMoneyValue(int money)
+    {
+        moneyValue.text = money + "";
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void DisplayBasicStructureInfo(StructureBaseSO data)
+    {
+        structurePanelHelper.DisplayBasicStructureInfo(data);
+    }
+
+    public void DisplayZoneStructureInfo(ZoneStructureSO data)
+    {
+        structurePanelHelper.DisplayZoneStructureInfo(data);
+    }
+
+    public void DisplayFacilitStructureInfo(SingleFacilitySO data)
+    {
+        structurePanelHelper.DisplayFacilityStructureInfo(data);
+    }
+
+    private void OnBuildAreaCallback(string nameOfStructure)
+    {
+        PrepareUIForBuilding();
+        OnBuildAreaHandler?.Invoke(nameOfStructure);
     }
 
     private void OnBuildRoadCallback(string nameOfStructure)
@@ -115,60 +176,9 @@ public class UiController : MonoBehaviour
         OnCloseMenuHandler();
     }
 
-    private void CreateButtonsInPanel(Transform panelTransform, List<string> dataToShow, Action<string> callback)
-    {
-        if (dataToShow.Count > panelTransform.childCount)
-        {
-            int quantityDifference = dataToShow.Count - panelTransform.childCount;
-            for (int i = 0; i < quantityDifference; i++)
-            {
-                Instantiate(buildButtonPrefab, panelTransform);
-            }
-        }
-        for (int i = 0; i < panelTransform.childCount; i++)
-        {
-            var button = panelTransform.GetChild(i).GetComponent<Button>();
-            if (button != null)
-            {
-                button.GetComponentInChildren<TextMeshProUGUI>().text = dataToShow[i];
-                button.onClick.AddListener(() => callback(button.GetComponentInChildren<TextMeshProUGUI>().text));
-            }
-        }
-    }
-
-    private void OnBuildAreaCallback(string nameOfStructure)
-    {
-        PrepareUIForBuilding();
-        OnBuildAreaHandler?.Invoke(nameOfStructure);
-    }
-
-    public void SetMoneyValue(int money)
-    {
-        moneyValue.text = money + "";
-    }
-
-    private void Update()
-    {
-        
-    }
-
-    public void DisplayBasicStructureInfo(StructureBaseSO data)
-    {
-        structurePanelHelper.DisplayBasicStructureInfo(data);
-    }
-
-    public void DisplayZoneStructureInfo(ZoneStructureSO data)
-    {
-        structurePanelHelper.DisplayZoneStructureInfo(data);
-    }
-
-    public void DisplayFacilitStructureInfo(SingleFacilitySO data)
-    {
-        structurePanelHelper.DisplayFacilityStructureInfo(data);
-    }
-
     private void OnCancleActionCallback()
     {
+        AudioManager.Instance.PlayButtonClickedSound();
         cancleActionPanel.SetActive(false);
         OnCancleActionHandler?.Invoke();
     }
@@ -182,25 +192,7 @@ public class UiController : MonoBehaviour
     {
         OnBuildAreaHandler -= listener;
     }
-    public void AddListenerOnCancleActionEvent(Action listener)
-    {
-        OnCancleActionHandler += listener;
-    }
 
-    public void RemoveListenerOnCancleActionEvent(Action listener)
-    {
-        OnCancleActionHandler -= listener;
-    }
-
-    public void AddListenerOnDemolishActionEvent(Action listener)
-    {
-        OnDemolishActionHandler += listener;
-    }
-
-    public void RemoveListenerOnDemolishActionEvent(Action listener)
-    {
-        OnDemolishActionHandler -= listener;
-    }
     public void AddListenerOnBuildSingleStructureEvent(Action<string> listener)
     {
         OnBuildSingleStructureHandler += listener;
@@ -221,6 +213,16 @@ public class UiController : MonoBehaviour
         OnBuildRoadHandler -= listener;
     }
 
+    public void AddListenerOnCancleActionEvent(Action listener)
+    {
+        OnCancleActionHandler += listener;
+    }
+
+    public void RemoveListenerOnCancleActionEvent(Action listener)
+    {
+        OnCancleActionHandler -= listener;
+    }
+
     public void AddListenerOnConfirmActionEvent(Action listener)
     {
         OnConfirmActionHandler += listener;
@@ -229,5 +231,15 @@ public class UiController : MonoBehaviour
     public void RemoveListenerOnConfirmActionEvent(Action listener)
     {
         OnConfirmActionHandler -= listener;
+    }
+
+    public void AddListenerOnDemolishActionEvent(Action listener)
+    {
+        OnDemolishActionHandler += listener;
+    }
+
+    public void RemoveListenerOnDemolishActionEvent(Action listener)
+    {
+        OnDemolishActionHandler -= listener;
     }
 }
