@@ -24,9 +24,9 @@ public class BuildingManager
         helper = StructureModificationFactory.GetHelper(classType);
     }
 
-    public void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
+    public void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
     {
-        helper.PrepareStructureForPlacement(inputPosition, structureName, structureType);
+        helper.PrepareStructureForModification(inputPosition, structureName, structureType);
     }
 
     public void ConfirmModification()
@@ -46,7 +46,7 @@ public class BuildingManager
 
     public void PrepareStructureForDemolitionAt(Vector3 inputPosition)
     {
-        helper.PrepareStructureForPlacement(inputPosition, "", StructureType.None);
+        helper.PrepareStructureForModification(inputPosition, "", StructureType.None);
     }
 
     public GameObject CheckForStructureInGrid(Vector3 inputPosition)

@@ -45,7 +45,7 @@ public abstract class StructureModificationHelper
         placementManager.DestroyStructures(structuresToBeModified.Values);
         ResetHelpersData();
     }
-    public virtual void PrepareStructureForPlacement(Vector3 inputPosition, string structureName, StructureType structureType)
+    public virtual void PrepareStructureForModification(Vector3 inputPosition, string structureName, StructureType structureType)
     {
         if (structureData.GetType()==typeof(NullStructureSO) && structureType != StructureType.None)
         {

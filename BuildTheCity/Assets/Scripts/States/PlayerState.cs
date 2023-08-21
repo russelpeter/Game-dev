@@ -13,33 +13,26 @@ public abstract class PlayerState
     }
     public virtual void OnConfirmAction()
     {
-        this.gameManager.TransitionToState(this.gameManager.selectionState, null);
+        this.gameManager.TransitionToState(this.gameManager.selectionState,null);
     }
-
-    public virtual void OnInputPointerDown(Vector3 position)
+    public virtual void OnInputPointerDown(Vector3 position) { }
+    public virtual void OnInputPointerChange(Vector3 position) { }
+    public virtual void OnInputPointerUp() { }
+    public virtual void OnInputPanChange(Vector3 panPosition)
     {
-
+        cameraMovement.MoveCamera(panPosition);
     }
-    public virtual void OnInputPointerChange(Vector3 position)
+
+    public virtual void OnInputPanUp()
     {
-
+        cameraMovement.StopCameraMovement();
     }
-
-    public virtual void OnInputPointerUp()
-    {
-
-    }
-
     public virtual void EnterState(string variable)
     {
 
     }
-
-    public abstract void OnCancle();
-
     public virtual void OnBuildArea(string structureName)
     {
-
         this.gameManager.TransitionToState(this.gameManager.buildingAreaState, structureName);
     }
 
@@ -58,14 +51,6 @@ public abstract class PlayerState
         this.gameManager.TransitionToState(this.gameManager.demolishState, null);
     }
 
-    public virtual void OnInputPanChange(Vector3 panPosition)
-    {
-        cameraMovement.MoveCamera(panPosition);
-    }
-
-    public virtual void OnInputPanUp()
-    {
-        cameraMovement.StopCameraMovement();
-    }
+    public abstract void OnCancle();
 
 }

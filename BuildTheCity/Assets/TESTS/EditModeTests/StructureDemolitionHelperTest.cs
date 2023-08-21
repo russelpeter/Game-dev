@@ -41,7 +41,7 @@ namespace Tests
 //         [Test]
 //         public void StructureDemolitionHelperSelectForDemolitionPasses()
 //         {
-//             helper.PrepareStructureForPlacement(gridPosition1, "", StructureType.None);
+//             helper.PrepareStructureForModification(gridPosition1, "", StructureType.None);
 //             GameObject objectInDictionary = helper.AccessStructureInDictionary(gridPosition1);
 //             Assert.AreEqual(tempObject, objectInDictionary);
 //         }
@@ -50,7 +50,7 @@ namespace Tests
 //         [Test]
 //         public void StructureDemolitionHelperCAncleDemolitionPasses()
 //         {
-//             helper.PrepareStructureForPlacement(gridPosition1, "", StructureType.None);
+//             helper.PrepareStructureForModification(gridPosition1, "", StructureType.None);
 //             helper.CancleModifications();
 //             Assert.IsTrue(grid.IsCellTaken(gridPosition1));
 //         }
@@ -58,7 +58,7 @@ namespace Tests
 //         [Test]
 //         public void StructureDemolitionHelperConfirmForDemolitionPasses()
 //         {
-//             helper.PrepareStructureForPlacement(gridPosition1, "", StructureType.None);
+//             helper.PrepareStructureForModification(gridPosition1, "", StructureType.None);
 //             GameObject objectInDictionary = helper.AccessStructureInDictionary(gridPosition1);
 //             helper.ConfirmModifications();
 //             Assert.IsFalse(grid.IsCellTaken(gridPosition1));
