@@ -19,7 +19,6 @@ public abstract class StructureBaseSO : ScriptableObject
     {
         return income;
     }
-<<<<<<< HEAD
 
     public bool HasPower()
     {
@@ -92,6 +91,4 @@ public abstract class StructureBaseSO : ScriptableObject
             }
         }
     }
-=======
->>>>>>> parent of 177e6cd (Implementing functionality to structures)
 }
