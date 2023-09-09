@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResourceManager : MonoBehaviour, IResourceManager
 {
@@ -57,6 +58,7 @@ public class ResourceManager : MonoBehaviour, IResourceManager
     private void ReloadGame()
     {
         Debug.Log("End the game");
+        SceneManager.LoadScene("EndMenu");  // Load the EndMenu scene by name
     }
 
     public bool CanIBuyIt(int amount)
